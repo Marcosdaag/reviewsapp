@@ -16,7 +16,7 @@ A diferencia de otras plataformas, Reviews App se centra en la **interacción so
 
 El proyecto está construido utilizando una arquitectura moderna y escalable:
 
-* **Frontend:** [Angular](https://angular.io/) (Framework SPA) + [TailwindCSS](https://tailwindcss.com/) (Estilos).
+* **Frontend:** [Angular](https://angular.io/) (Framework SPA)).
 * **Backend:** [NestJS](https://nestjs.com/) (Framework de Node.js eficiente y escalable).
 * **Base de Datos:** [PostgreSQL](https://www.postgresql.org/) (Motor relacional robusto).
 
