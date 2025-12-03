@@ -1,12 +1,11 @@
 // npx prisma init - crea la carpeta prisma y el documento prisma.config.ts
 // CON "npx prisma migrate dev --name descripciondelcambio" hago que se actualice la db creando las tablas necesarias definidas en los distintos modelos
 // CON "npx prisma generate" actualizo mis modulos para que detecten la sintaxis de mis tablas
-/**
- * PROBLEMA => al usar direct conecction no esta disponible el ipv4 por lo que no podemos actualizar las tablas en nuestra db haciendo un "PUSH" con "npx prisma migrate dev --name descripciondelcambio"
- * Por lo que se conecta mediante session pooler y al final de connectionstring se le agrega "?pgbouncer=true" y despues con "npx prisma db push" actualizamos las tablas
- * El migrate inicialmente sirve para crear una shadow data base con la finalidad de poder volver atras en caso de tener algun error
- * Por otro lado el push sobreescribe todo (tener en cuenta)
- */
+
+// PROBLEMA => al usar direct conecction no esta disponible el ipv4 por lo que no podemos actualizar las tablas en nuestra db haciendo un "PUSH" con "npx prisma migrate dev --name descripciondelcambio"
+// Por lo que se conecta mediante session pooler y al final de connectionstring se le agrega "?pgbouncer=true" y despues con "npx prisma db push" actualizamos las tablas
+// El migrate inicialmente sirve para crear una shadow data base con la finalidad de poder volver atras en caso de tener algun error
+// Por otro lado el push sobreescribe todo (tener en cuenta)
 
 // generamos una plantilla con este fichero que va a servir para el autocompletado y despues tiene el nombre de la "plantilla-herramienta" con la extension js que aclara que tipo de lenguaje tiene que interpretar
 generator client {
@@ -16,6 +15,7 @@ generator client {
 // le dice a prisma que tipo de base de datos se va a utilizar
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 // enum es una especie de "menu desplegable" con opciones fijas, sirve para estandarizar los datos y cada enum es para un tipo distinto de objeto
@@ -40,16 +40,13 @@ enum Role {
 
 model User {
   // primero se define el nombre de la propiedad, en segundo lugar el tipo de dato y por ultimo se le puede agregar un atributo con x funcionalidad
-  /**
-   * /**
-   * /**
-   * /*
-   * ATRIBUTOS
-   * @id @default(uuid()) cre un id unico Universally Unique Identifier por defecto
-   * @unique se asegura que para guardar ese objeto en la db no debe haber otro con la misma propiedad y valor
-   * @default se usa para que esa propiedad tome un valor por defecto
-   * "?" despues del tipo de dato sirve para que no sea necesario darle el valor desde un inicio (guardar) y pueda recibir como valor NULL
-   */
+
+  // ATRIBUTOS
+  // @id @default(uuid()) cre un id unico Universally Unique Identifier por defecto
+  // @unique se asegura que para guardar ese objeto en la db no debe haber otro con la misma propiedad y valor
+  // @default se usa para que esa propiedad tome un valor por defecto
+  // "?" despues del tipo de dato sirve para que no sea necesario darle el valor desde un inicio (guardar) y pueda recibir como valor NULL
+
   id        String   @id @default(uuid())
   email     String   @unique
   password  String
@@ -65,12 +62,9 @@ model User {
   interactions Interaction[]
 
   // Relacion "Followers/Following" (Muchos a Muchos consigo mismo)
-  /**
-   * /**
-   * /*
-   * en resumen el usuario tiene dos propiedades, followerts y following, el tipo de dato en ambos es un array de usuarios
-   * esto no se guarda en una lista sino que tiene en cuenta las relaciones entre usuarios
-   */
+  // en resumen el usuario tiene dos propiedades, followerts y following, el tipo de dato en ambos es un array de usuarios
+  // esto no se guarda en una lista sino que tiene en cuenta las relaciones entre usuarios
+
   following User[] @relation("UserFollows")
   followers User[] @relation("UserFollows")
 }
@@ -87,12 +81,11 @@ model Post {
   likesCount Int         @default(0)
   createdAt  DateTime    @default(now())
 
-  /**
-   * definimos la relacion del usuario, en primer lugar creamos un authorId que recibe como parametro un String,
-   * este va a almacenar el nombre del usuario que creo el post.
-   * despues creamos una propiedad author que recibe como valor un User y ahi creo la "Relacion UserPosts", le digo que complete aithorId con
-   * la referencia id dentro del User
-   */
+  // definimos la relacion del usuario, en primer lugar creamos un authorId que recibe como parametro un String,
+  // este va a almacenar el nombre del usuario que creo el post.
+  // despues creamos una propiedad author que recibe como valor un User y ahi creo la "Relacion UserPosts", le digo que complete aithorId con
+  // la referencia id dentro del User
+
   authorId String
   author   User   @relation("UserPosts", fields: [authorId], references: [id])
 
