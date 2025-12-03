@@ -15,6 +15,6 @@ Si la tarea esta completada ✅
 * 
 
 ### 🗑️ Extras
-* 
+* Sacar propiedad SAVED de posts ❌
 * 
 * 
