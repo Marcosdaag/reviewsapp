@@ -15,7 +15,7 @@ generator client {
 // le dice a prisma que tipo de base de datos se va a utilizar
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = ""
 }
 
 // enum es una especie de "menu desplegable" con opciones fijas, sirve para estandarizar los datos y cada enum es para un tipo distinto de objeto

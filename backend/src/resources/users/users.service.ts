@@ -13,6 +13,7 @@ export class UsersService {
   // Metodos HTTP
 
   // 1- Creacion de usuario
+  // El metodo UserCreateInput lo genera prisma ya que tenemos el modelo de usuario dentro del schema y al ejecutar npx prisma generate genera ciertas peticiones por defecto
   async create(data: Prisma.UserCreateInput) {
     return this.prisma.user.create({
       data: data,
